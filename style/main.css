@@ -1,0 +1,9 @@
+
+#crossword > tr {
+    height: 20px;
+}
+#crossword > tr > td {
+    border: 1px solid;
+    width: 20px;
+    text-align: center;
+}
