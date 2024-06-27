@@ -10,8 +10,6 @@ function genTable(colLen, rowLen){
             }
         TABLE.appendChild(row)
     }
-    addWord("squid", 2,1,true)
-    addWord("splatoon",2,1,false)
 }
 
 function addWord(word, col, row, vert){
