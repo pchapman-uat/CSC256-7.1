@@ -1,12 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => genTable(10,10))
 
 class Word{
-    constructor(word, col, row, vertical){
+    constructor(word, col, row, vertical, hint){
         this.word = word;
         this.col = col;
         this.row = row;
         this.vertical = vertical;
         this.letters = this.word.split('')
+        this.hint = hint;
     }
     addWord(TABLE){
        
@@ -17,6 +18,7 @@ class Word{
             let input = document.createElement("input");
             input.setAttribute("maxLength", "1");
             td.appendChild(input)
+            td.classList.remove("unused");
         });
     }
     checkWord(TABLE){
@@ -68,6 +70,7 @@ function genTable(colLen, rowLen){
         let row = document.createElement("tr")
             for(let j=0; j<colLen; j++){
                 let col = document.createElement('td')
+                col.classList.add("unused");
                 row.appendChild(col)
             }
         TABLE.appendChild(row)
@@ -78,12 +81,17 @@ function genTable(colLen, rowLen){
 }
 
 const WORDS =[
-    new Word("test", 0,0,true),
-    new Word("test", 0,0,false)
+    new Word("Tentacle", 1,7,false,"A long, flexible limb used by squids for grasping and sensing."),
+    new Word("Cephalopod", 0,5,false, "The class of mollusks that includes squids, octopuses, and cuttlefish."),
+    new Word("Mantle", 4,4,true, "The main body part of a squid, covering its organs.")
 ]
 function addWords(){
+    let hints = document.getElementById("hints")
     WORDS.forEach((word) => {
         word.addWord(document.getElementById("crossword"))
+        let hint = document.createElement("p");
+        hint.innerHTML = word.hint;
+        hints.appendChild(hint)
     })
 }
 function checkWords(){
