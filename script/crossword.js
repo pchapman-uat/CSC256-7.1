@@ -1,5 +1,38 @@
 document.addEventListener("DOMContentLoaded", () => genTable(10,10))
 
+class Word{
+    constructor(word, col, row, vertical){
+        this.word = word;
+        this.col = col;
+        this.row = row;
+        this.vertical = vertical;
+        this.letters = this.word.split('')
+    }
+    addWord(TABLE){
+       
+        this.letters.forEach((letter, i) => {
+            let td=this.getCell(TABLE,i)
+            // td.innerHTML = letter.toUpperCase;
+            if(td.childElementCount != 0) return;
+            let input = document.createElement("input");
+            input.setAttribute("maxLength", "1");
+            td.appendChild(input)
+        });
+    }
+    showWord(TABLE){
+        this.letters.forEach((letter, i) => {
+            let td=this.getCell(TABLE, i);
+            td.innerHTML = letter;
+        })
+    }
+    getCell(TABLE, i){
+        let td;
+        if(this.vertical) td = TABLE.rows[this.row+i].cells[this.col];
+        else td = TABLE.rows[this.row].cells[i+this.col];
+        return td;
+    }
+}
+
 function genTable(colLen, rowLen){
     const TABLE = document.getElementById("crossword")
     for(let i=0; i<rowLen; i++){
@@ -10,15 +43,21 @@ function genTable(colLen, rowLen){
             }
         TABLE.appendChild(row)
     }
+    addWrods();
+    document.getElementById("show").addEventListener("click", () => showWords());
 }
 
-function addWord(word, col, row, vert){
-    const TABLE = document.getElementById("crossword")
-    let array = word.split('')
-    console.log(array)
-    array.forEach((letter, i) => {
-        if(vert) TABLE.rows[row+i].cells[col].innerHTML = letter.toUpperCase();
-        else TABLE.rows[row].cells[i+col].innerHTML = letter.toUpperCase();
-
-    });
+const WORDS =[
+    new Word("test", 0,0,true),
+    new Word("test", 0,0,false)
+]
+function addWrods(){
+    WORDS.forEach((word) => {
+        word.addWord(document.getElementById("crossword"))
+    })
+}
+function showWords(){
+    WORDS.forEach((word) => {
+        word.showWord(document.getElementById("crossword"));
+    })
 }

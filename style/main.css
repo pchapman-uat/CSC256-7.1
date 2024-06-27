@@ -7,3 +7,7 @@
     width: 20px;
     text-align: center;
 }
+#crossword > tr > td > input {
+    width: inherit;
+    text-align: center;
+}
