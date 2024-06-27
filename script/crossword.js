@@ -19,10 +19,14 @@ class Word{
             td.appendChild(input)
         });
     }
-    showWord(TABLE){
+    checkWord(TABLE){
         this.letters.forEach((letter, i) => {
             let td=this.getCell(TABLE, i);
-            td.innerHTML = letter;
+            if(!td.firstChild.value) return;
+            if(td.firstChild.value.toUpperCase() == letter.toUpperCase()){
+                td.classList.add("correct");
+            }
+            td.innerHTML = letter.toUpperCase();
         })
     }
     getCell(TABLE, i){
@@ -43,21 +47,21 @@ function genTable(colLen, rowLen){
             }
         TABLE.appendChild(row)
     }
-    addWrods();
-    document.getElementById("show").addEventListener("click", () => showWords());
+    addWords();
+    document.getElementById("show").addEventListener("click", () => checkWords());
 }
 
 const WORDS =[
     new Word("test", 0,0,true),
     new Word("test", 0,0,false)
 ]
-function addWrods(){
+function addWords(){
     WORDS.forEach((word) => {
         word.addWord(document.getElementById("crossword"))
     })
 }
-function showWords(){
+function checkWords(){
     WORDS.forEach((word) => {
-        word.showWord(document.getElementById("crossword"));
+        word.checkWord(document.getElementById("crossword"));
     })
 }

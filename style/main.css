@@ -11,3 +11,6 @@
     width: inherit;
     text-align: center;
 }
+.correct {
+    background-color: green;
+}
