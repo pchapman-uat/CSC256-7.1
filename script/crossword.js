@@ -23,8 +23,33 @@ class Word{
         this.letters.forEach((letter, i) => {
             let td=this.getCell(TABLE, i);
             if(!td.firstChild.value) return;
-            if(td.firstChild.value.toUpperCase() == letter.toUpperCase()){
+            if(this.checkValue(td, letter)){
                 td.classList.add("correct");
+                td.innerHTML = letter.toUpperCase();
+            }
+           
+        })
+    }
+    checkValue(td, letter){
+        console.log(td.firstChild.value)
+        if(td.firstChild.value == undefined) {
+            console.log("No Input")
+            return true;
+        }
+        return td.firstChild.value.toUpperCase() == letter.toUpperCase()
+    }
+    showWord(TABLE){
+        console.log("Start Show Word")
+        console.log(this.letters)
+        this.letters.forEach((letter, i) => {
+            console.log(letter)
+            console.log(i)
+            let td=this.getCell(TABLE, i);
+            if(!td.firstChild) return;
+            if(this.checkValue(td, letter)){
+                td.classList.add("correct");
+            } else{
+                td.classList.add("wrong")
             }
             td.innerHTML = letter.toUpperCase();
         })
@@ -48,7 +73,8 @@ function genTable(colLen, rowLen){
         TABLE.appendChild(row)
     }
     addWords();
-    document.getElementById("show").addEventListener("click", () => checkWords());
+    document.getElementById("check").addEventListener("click", () => checkWords());
+    document.getElementById("show").addEventListener("click", () => showWords());
 }
 
 const WORDS =[
@@ -64,4 +90,9 @@ function checkWords(){
     WORDS.forEach((word) => {
         word.checkWord(document.getElementById("crossword"));
     })
+}
+function showWords(){
+    WORDS.forEach((word) => {
+        word.showWord(document.getElementById("crossword"));
+    });
 }
