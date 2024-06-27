@@ -9,11 +9,13 @@
 }
 #crossword > tr > td > input {
     width: inherit;
-    text-align: center;
 }
 .correct {
     background-color: green;
 }
 .wrong {
     background-color: red;
+}
+.unused {
+    background-color: rgb(25,25,25);
 }
