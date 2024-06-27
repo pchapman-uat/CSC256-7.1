@@ -1,4 +1,6 @@
-
+body{
+    background-image: linear-gradient(rgb(161, 74, 161),rgb(120, 57, 120),rgb(161, 74, 161));
+}
 #crossword > tr {
     height: 20px;
 }
@@ -18,4 +20,26 @@
 }
 .unused {
     background-color: rgb(25,25,25);
+}
+.crosswordTable {
+    justify-content: space-around;
+    display: flex;
+}
+
+#crossword{
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 100px;
+    padding: 5%;
+}
+.buttons{
+    display: flex;
+    justify-content: space-around;
+    margin: 1%;
+}
+#hints {
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 100px;
+    padding: 3%;
+    text-align: center;
+    font-size: larger;
 }
