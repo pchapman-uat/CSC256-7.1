@@ -78,6 +78,7 @@ function genTable(colLen, rowLen){
     addWords();
     document.getElementById("check").addEventListener("click", () => checkWords());
     document.getElementById("show").addEventListener("click", () => showWords());
+    document.getElementById("randomHint").addEventListener("click", () => randomHint());
 }
 
 const WORDS =[
@@ -89,9 +90,6 @@ function addWords(){
     let hints = document.getElementById("hints")
     WORDS.forEach((word) => {
         word.addWord(document.getElementById("crossword"))
-        let hint = document.createElement("p");
-        hint.innerHTML = word.hint;
-        hints.appendChild(hint)
     })
 }
 function checkWords(){
@@ -103,4 +101,33 @@ function showWords(){
     WORDS.forEach((word) => {
         word.showWord(document.getElementById("crossword"));
     });
+}
+var usedHints = []
+var secondHints = []
+function randomHint(){
+    let hints = document.getElementById("hints")
+    let randomIndex = Math.floor(Math.random()*WORDS.length)
+    let randomWord;
+    if(usedHints.length + secondHints.length >= WORDS.length*2) return;
+    if(usedHints.length >= WORDS.length){
+        while(secondHints.includes(randomIndex)){
+            randomIndex = Math.floor(Math.random()*WORDS.length)
+            console.log(randomIndex)
+        }
+        randomWord = "Word "+(randomIndex+1)+" has "+WORDS[randomIndex].letters.length+" letters";
+        secondHints.push(randomIndex)
+    } else{
+        while(usedHints.includes(randomIndex)){
+            randomIndex = Math.floor(Math.random()*WORDS.length)
+            console.log(randomIndex)
+        }
+        randomWord = (randomIndex+1)+". "+WORDS[randomIndex].hint;
+        usedHints.push(randomIndex)
+    }
+    
+   
+    
+    let hint = document.createElement("p");
+    hint.innerHTML = randomWord;
+    hints.appendChild(hint)
 }
