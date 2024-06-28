@@ -1,12 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => genTable(10,10))
 
 class Word{
+    reaminingLetters = [];
+    solved = false;
     constructor(word, col, row, vertical, hint){
         this.word = word;
         this.col = col;
         this.row = row;
         this.vertical = vertical;
         this.letters = this.word.split('')
+        this.reaminingLetters = this.letters.slice(0);
         this.hint = hint;
     }
     addWord(TABLE){
@@ -27,8 +30,8 @@ class Word{
             if(!td.firstChild.value) return;
             if(this.checkValue(td, letter)){
                 td.classList.add("correct");
-                td.innerHTML = letter.toUpperCase();
-            }
+                this.updateSolved(td, i)
+            } else if(this.forThisWord(i)) this.updateSolved(td, i);
            
         })
     }
@@ -62,6 +65,42 @@ class Word{
         else td = TABLE.rows[this.row].cells[i+this.col];
         return td;
     }
+    showRandomLetter(TABLE){
+        let randomIndex = Math.floor(Math.random() * this.letters.length);
+        let td = this.getCell(TABLE, randomIndex);
+        if(this.reaminingLetters.filter((val) => val!==null).length == 0){
+            console.log("No More Letters")
+            return false;
+        }
+        else if(td.firstChild.value == undefined) {
+            console.log("Already Used")
+            console.log(this.reaminingLetters)
+            if(this.forThisWord(randomIndex)){
+                console.log("Used for differnt word")
+                console.log(this.letters)
+                console.log(this.letters[randomIndex])
+                this.updateSolved(td,randomIndex)
+                return this.showRandomLetter(TABLE)
+            } else {
+                return this.showRandomLetter(TABLE)
+            }
+        }
+        else {
+            this.updateSolved(td, randomIndex)
+            return true;
+        }
+    }
+    updateSolved(td, index){
+        td.innerHTML = this.letters[index].toUpperCase();
+        this.reaminingLetters[index] = null;
+        console.log(this.reaminingLetters.filter((val) => val !== null))
+        if(this.reaminingLetters.filter((val) => val !== null).length == 0){
+            this.solved = true;
+        }
+    }
+    forThisWord(index) {
+        return this.reaminingLetters[index] == this.letters[index]
+    }
 }
 
 function genTable(colLen, rowLen){
@@ -78,6 +117,7 @@ function genTable(colLen, rowLen){
     addWords();
     document.getElementById("check").addEventListener("click", () => checkWords());
     document.getElementById("show").addEventListener("click", () => showWords());
+    document.getElementById("randomLetter").addEventListener("click", () => randomLetter())
     document.getElementById("randomHint").addEventListener("click", () => randomHint());
 }
 
@@ -130,4 +170,12 @@ function randomHint(){
     let hint = document.createElement("p");
     hint.innerHTML = randomWord;
     hints.appendChild(hint)
+}
+function randomLetter(){
+    let filteredWords = WORDS.filter((word) => !word.solved)
+    console.log(filteredWords)
+    if(filteredWords.length == 0) return;
+    let randomIndex = Math.floor(Math.random()*filteredWords.length)
+    let result = filteredWords[randomIndex].showRandomLetter(document.getElementById("crossword"))
+    if(!result) randomLetter();
 }
