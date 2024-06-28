@@ -13,6 +13,7 @@ body{
 #crossword > tr > td > input {
     width: inherit;
     height: inherit;
+    text-align: inherit;
 }
 .correct {
     background-color: green;
