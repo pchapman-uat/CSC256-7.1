@@ -1,5 +1,7 @@
 # CSC256 7.1
 
+## Webiste
+The website is hosted using GitHub, to view it please head to https://pchapman-uat.github.io/CSC256-7.1/
 ## Guidelines and Expectations
 1. Create a simple 3-word crossword puzzle.
 2. Create clues for each of the 3 words.
